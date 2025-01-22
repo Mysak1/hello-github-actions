@@ -1,7 +1,10 @@
 name: Post welcome comment
 on:
+  workflow_dispatch:
+  push:
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   build:
     name: Post welcome comment
@@ -16,9 +19,34 @@ jobs:
         uses: gittools/actions/gitversion/setup@v3.1.10
         with:
           versionSpec: "6.0.0"
-      
+
       - name: Determine Version
+        id: version_step
         uses: gittools/actions/gitversion/execute@v3.1.11
+        with:
+          updateAssemblyInfo: true
+
+      - name: Display GitVersion variables (without prefix)
+        run: |
+          echo "FullSemVer (env.fullSemVer) : ${{ env.fullSemVer }}"
+
+      - name: Display GitVersion variables (with prefix)
+        run: |
+          echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
+
+      - name: Display GitVersion outputs (step output without prefix)
+        run: |
+          echo "FullSemVer (steps.version_step.outputs.fullSemVer) : ${{ steps.version_step.outputs.fullSemVer }}"
+
+      - name: Display GitVersion outputs (step output with prefix)
+        run: |
+          echo "FullSemVer (steps.version_step.outputs.GitVersion_FullSemVer) : ${{ steps.version_step.outputs.GitVersion_FullSemVer }}"
+
+      - name: Output the formatted version
+        uses: gittools/actions/gitversion/command@v3.1.11
+        with:
+          arguments: "/format {Major}.{Minor}" # any Output Variable can be used here
+
 
       # - name: Comment PR
       #   env:
