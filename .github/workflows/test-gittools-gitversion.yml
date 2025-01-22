@@ -49,7 +49,6 @@ jobs:
         with:
           arguments: "/format {Major}.{Minor}.{Patch}" # any Output Variable can be used here
 
-
       # - name: Comment PR
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
