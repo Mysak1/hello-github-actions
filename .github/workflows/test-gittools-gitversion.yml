@@ -25,9 +25,11 @@ jobs:
       - name: Determine Version
         id: version_step
         uses: gittools/actions/gitversion/execute@v3.1.11
-        with:
-          updateAssemblyInfo: true
+        # with:
+        #   useConfigFile: true
+        #   configFilePath: GitVersion.yml
 
+      ########################################################################################
       - name: Display GitVersion variables (without prefix)
         run: |
           echo "FullSemVer (env.fullSemVer) : ${{ env.fullSemVer }}"
@@ -44,10 +46,35 @@ jobs:
         run: |
           echo "FullSemVer (steps.version_step.outputs.GitVersion_FullSemVer) : ${{ steps.version_step.outputs.GitVersion_FullSemVer }}"
 
+      ########################################################################################
+      - name: Display GitVersion config
+        uses: gittools/actions/gitversion/command@v3.1.11
+        with:
+          #useConfigFile: true
+          arguments: "/showConfig"
+
+      - name: Output the FullSemVer variable
+        uses: gittools/actions/gitversion/command@v3.1.11
+        with:
+          arguments: "/showvariable FullSemVer"
+
       - name: Output the formatted version
         uses: gittools/actions/gitversion/command@v3.1.11
         with:
           arguments: "/format {Major}.{Minor}.{Patch}" # any Output Variable can be used here
+
+      ########################################################################################
+      - name: Tag version
+        if: ${{ github.event_name != 'pull_request' }}
+        run: |
+          release_version=${{ steps.version_step.outputs.fullSemVer }}
+          if [ $(git tag -l "$release_version" --points-at HEAD) ]; then
+            echo "Tag $release_version already exists on current commit"
+          else
+            echo "Tagging version $release_version"
+            git tag $release_version
+            git push origin $release_version
+          fi
 
       # - name: Comment PR
       #   env:
