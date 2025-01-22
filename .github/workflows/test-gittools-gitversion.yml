@@ -25,8 +25,8 @@ jobs:
       - name: Determine Version
         id: version_step
         uses: gittools/actions/gitversion/execute@v3.1.11
-        with:
-          updateAssemblyInfo: true
+        # with:
+        #   updateAssemblyInfo: true
 
       - name: Display GitVersion variables (without prefix)
         run: |
