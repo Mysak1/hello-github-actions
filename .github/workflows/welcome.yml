@@ -1,13 +1,15 @@
-name: Post welcome comment
+name: Test gittools/GitVersion
+
 on:
   workflow_dispatch:
   push:
+    branches: [develop, main]
   pull_request:
     types: [opened, synchronize, reopened]
+    branches: [develop, main] # target pull_request branches
 
 jobs:
   build:
-    name: Post welcome comment
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -45,7 +47,7 @@ jobs:
       - name: Output the formatted version
         uses: gittools/actions/gitversion/command@v3.1.11
         with:
-          arguments: "/format {Major}.{Minor}" # any Output Variable can be used here
+          arguments: "/format {Major}.{Minor}.{Patch}" # any Output Variable can be used here
 
 
       # - name: Comment PR
