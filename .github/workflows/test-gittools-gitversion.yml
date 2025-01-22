@@ -26,8 +26,10 @@ jobs:
         id: version_step
         uses: gittools/actions/gitversion/execute@v3.1.11
         # with:
-        #   updateAssemblyInfo: true
+        #   useConfigFile: true
+        #   configFilePath: GitVersion.yml
 
+      ########################################################################################
       - name: Display GitVersion variables (without prefix)
         run: |
           echo "FullSemVer (env.fullSemVer) : ${{ env.fullSemVer }}"
@@ -44,10 +46,23 @@ jobs:
         run: |
           echo "FullSemVer (steps.version_step.outputs.GitVersion_FullSemVer) : ${{ steps.version_step.outputs.GitVersion_FullSemVer }}"
 
+      ########################################################################################
+      - name: Display GitVersion config
+        uses: gittools/actions/gitversion/command@v3.1.11
+        with:
+          #useConfigFile: true
+          arguments: "/showConfig"
+
+      - name: Output the FullSemVer variable
+        uses: gittools/actions/gitversion/command@v3.1.11
+        with:
+          arguments: "/showvariable FullSemVer"
+
       - name: Output the formatted version
         uses: gittools/actions/gitversion/command@v3.1.11
         with:
           arguments: "/format {Major}.{Minor}.{Patch}" # any Output Variable can be used here
+
 
       # - name: Comment PR
       #   env:
