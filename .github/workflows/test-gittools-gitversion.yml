@@ -35,23 +35,6 @@ jobs:
             tag-prefix=${{ env.VERSION_PREFIX }}
 
       ########################################################################################
-      - name: Display GitVersion variables (without prefix)
-        run: |
-          echo "FullSemVer (env.fullSemVer) : ${{ env.fullSemVer }}"
-
-      - name: Display GitVersion variables (with prefix)
-        run: |
-          echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
-
-      - name: Display GitVersion outputs (step output without prefix)
-        run: |
-          echo "FullSemVer (steps.version_step.outputs.fullSemVer) : ${{ steps.version_step.outputs.fullSemVer }}"
-
-      - name: Display GitVersion outputs (step output with prefix)
-        run: |
-          echo "FullSemVer (steps.version_step.outputs.GitVersion_FullSemVer) : ${{ steps.version_step.outputs.GitVersion_FullSemVer }}"
-
-      ########################################################################################
       - name: Display GitVersion config
         uses: gittools/actions/gitversion/command@v3.1.11
         with:
@@ -68,6 +51,13 @@ jobs:
         with:
           arguments: "/format {Major}.{Minor}.{Patch}" # any Output Variable can be used here
 
+      - name: Display GitVersion variables
+        run: |
+          echo "FullSemVer (env.fullSemVer) : ${{ env.fullSemVer }}"
+          echo "FullSemVer (steps.version_step.outputs.fullSemVer) : ${{ steps.version_step.outputs.fullSemVer }}"
+          echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
+          echo "FullSemVer (steps.version_step.outputs.GitVersion_FullSemVer) : ${{ steps.version_step.outputs.GitVersion_FullSemVer }}"
+
       ########################################################################################
       - name: Tag version
         if: ${{ github.event_name != 'pull_request' }}
@@ -80,9 +70,3 @@ jobs:
             git tag $release_version
             git push origin $release_version
           fi
-
-      # - name: Comment PR
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     PR_URL: ${{ github.event.pull_request.html_url }}
-      #   run: gh pr comment $PR_URL --body "Welcome to the repository!"
