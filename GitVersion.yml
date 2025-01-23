@@ -21,7 +21,7 @@ strategies:
 branches:
   develop:
     mode: ContinuousDelivery
-    label: alpha
+    label: SNAPSHOT
     increment: Minor
     prevent-increment:
       when-current-commit-tagged: false
@@ -37,7 +37,7 @@ branches:
     pre-release-weight: 0
   main:
     mode: ContinuousDelivery
-    label: beta
+    label: ""
     increment: Minor
     prevent-increment:
       of-merged-branch: true
@@ -49,7 +49,7 @@ branches:
     tracks-release-branches: false
     is-release-branch: true
     is-main-branch: true
-    pre-release-weight: 55000
+    pre-release-weight: 0
   # release:
   #   mode: ManualDeployment
   #   label: beta
