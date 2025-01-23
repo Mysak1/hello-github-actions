@@ -8,6 +8,9 @@ on:
     types: [opened, synchronize, reopened]
     branches: [develop, main] # target pull_request branches
 
+env:
+  VERSION_PREFIX: be-
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,6 +31,8 @@ jobs:
         with:
           useConfigFile: true
           configFilePath: GitVersion.yml
+          overrideConfig: |
+            tag-prefix=${{ env.VERSION_PREFIX }}
 
       ########################################################################################
       - name: Display GitVersion variables (without prefix)
@@ -50,7 +55,7 @@ jobs:
       - name: Display GitVersion config
         uses: gittools/actions/gitversion/command@v3.1.11
         with:
-          #useConfigFile: true
+          useConfigFile: true
           arguments: "/showConfig"
 
       - name: Output the FullSemVer variable
@@ -67,7 +72,7 @@ jobs:
       - name: Tag version
         if: ${{ github.event_name != 'pull_request' }}
         run: |
-          release_version=${{ steps.version_step.outputs.fullSemVer }}
+          release_version=${{ env.VERSION_PREFIX }}${{ steps.version_step.outputs.fullSemVer }}
           if [ $(git tag -l "$release_version" --points-at HEAD) ]; then
             echo "Tag $release_version already exists on current commit"
           else
