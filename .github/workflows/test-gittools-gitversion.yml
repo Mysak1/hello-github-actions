@@ -3,7 +3,7 @@ name: Test gittools/GitVersion
 on:
   workflow_dispatch:
   push:
-    branches: [develop, main]
+    branches: [develop, main, hotfix/**]
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [develop, main] # target pull_request branches
