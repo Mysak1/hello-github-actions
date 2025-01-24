@@ -9,7 +9,6 @@ on:
     branches: [develop, main]
 env:
   VERSION_PREFIX: be-
-
 jobs:
   build:
     runs-on: ubuntu-latest
