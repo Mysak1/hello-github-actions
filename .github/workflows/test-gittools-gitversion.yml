@@ -3,7 +3,7 @@ name: Test gittools/GitVersion
 on:
   workflow_dispatch:
   push:
-    branches: [develop, main]
+    branches: [develop, main, hotfix/**]
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [develop, main] # target pull_request branches
@@ -38,7 +38,7 @@ jobs:
       - name: Display GitVersion config
         uses: gittools/actions/gitversion/command@v3.1.11
         with:
-          useConfigFile: true
+          #useConfigFile: true
           arguments: "/showConfig"
 
       - name: Output the FullSemVer variable
