@@ -30,7 +30,6 @@ jobs:
           configFilePath: GitVersion.yml
           overrideConfig: |
             tag-prefix=${{ env.VERSION_PREFIX }}
-
       # - name: Display GitVersion config
       #   uses: gittools/actions/gitversion/command@v3.1.11
       #   with:
