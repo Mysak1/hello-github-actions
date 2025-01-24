@@ -1,5 +1,4 @@
 name: Test gittools/GitVersion
-
 on:
   workflow_dispatch:
   push:
