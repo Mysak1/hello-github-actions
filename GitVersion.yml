@@ -56,8 +56,6 @@ branches:
     label: HOTFIX
     increment: Patch
     prevent-increment:
-      of-merged-branch: true
-      when-branch-merged: true
       when-current-commit-tagged: false
     track-merge-target: true
     track-merge-message: true
