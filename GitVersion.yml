@@ -47,25 +47,23 @@ branches:
     regex: ^master$|^main$
     source-branches: []
     is-source-branch-for: []
-    tracks-release-branches: true
+    tracks-release-branches: false
     is-release-branch: true
     is-main-branch: true
-    pre-release-weight: 0
+    pre-release-weight: 55000
   hotfix:
     mode: ContinuousDelivery
     label: HOTFIX
     increment: Patch
     prevent-increment:
-      of-merged-branch: true
-      when-branch-merged: true
       when-current-commit-tagged: false
     track-merge-target: true
     track-merge-message: true
     regex: ^hotfix(es)?[/-](?<BranchName>.+)
     source-branches: [develop, main]
     is-source-branch-for: []
-    tracks-release-branches: true
-    is-release-branch: true
+    tracks-release-branches: false
+    is-release-branch: false
     is-main-branch: false
     pre-release-weight: 30000
 ignore:
