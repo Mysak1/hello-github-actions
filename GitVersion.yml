@@ -67,8 +67,8 @@ branches:
     is-main-branch: false
     pre-release-weight: 30000
   hotfix:
-    mode: ManualDeployment
-    label: "{BranchName}"
+    mode: ContinuousDelivery
+    label: HOTFIX
     increment: Patch
     prevent-increment:
       when-current-commit-tagged: false
