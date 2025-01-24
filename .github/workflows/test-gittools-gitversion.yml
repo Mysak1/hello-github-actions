@@ -6,7 +6,7 @@ on:
     branches: [develop, main]
   pull_request:
     types: [opened, synchronize, reopened]
-    branches: [develop, main] # target pull_request branches
+    branches: [develop, main]
 
 env:
   VERSION_PREFIX: be-
@@ -34,30 +34,28 @@ jobs:
           overrideConfig: |
             tag-prefix=${{ env.VERSION_PREFIX }}
 
-      ########################################################################################
-      - name: Display GitVersion config
-        uses: gittools/actions/gitversion/command@v3.1.11
-        with:
-          arguments: "/showConfig"
+      # - name: Display GitVersion config
+      #   uses: gittools/actions/gitversion/command@v3.1.11
+      #   with:
+      #     arguments: "/showConfig"
 
-      - name: Output the FullSemVer variable
-        uses: gittools/actions/gitversion/command@v3.1.11
-        with:
-          arguments: "/showvariable FullSemVer"
+      # - name: Output the FullSemVer variable
+      #   uses: gittools/actions/gitversion/command@v3.1.11
+      #   with:
+      #     arguments: "/showvariable FullSemVer"
 
-      - name: Output the formatted version
-        uses: gittools/actions/gitversion/command@v3.1.11
-        with:
-          arguments: "/format {Major}.{Minor}.{Patch}" # any Output Variable can be used here
+      # - name: Output the formatted version
+      #   uses: gittools/actions/gitversion/command@v3.1.11
+      #   with:
+      #     arguments: "/format {Major}.{Minor}.{Patch}" # any Output Variable can be used here
 
-      - name: Display GitVersion variables
-        run: |
-          echo "FullSemVer (env.fullSemVer) : ${{ env.fullSemVer }}"
-          echo "FullSemVer (steps.version_step.outputs.fullSemVer) : ${{ steps.version_step.outputs.fullSemVer }}"
-          echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
-          echo "FullSemVer (steps.version_step.outputs.GitVersion_FullSemVer) : ${{ steps.version_step.outputs.GitVersion_FullSemVer }}"
+      # - name: Display GitVersion variables
+      #   run: |
+      #     echo "FullSemVer (env.fullSemVer) : ${{ env.fullSemVer }}"
+      #     echo "FullSemVer (steps.version_step.outputs.fullSemVer) : ${{ steps.version_step.outputs.fullSemVer }}"
+      #     echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
+      #     echo "FullSemVer (steps.version_step.outputs.GitVersion_FullSemVer) : ${{ steps.version_step.outputs.GitVersion_FullSemVer }}"
 
-      ########################################################################################
       - name: Tag version
         if: ${{ github.event_name != 'pull_request' }}
         run: |
