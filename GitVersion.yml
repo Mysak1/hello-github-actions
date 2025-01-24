@@ -51,21 +51,21 @@ branches:
     is-release-branch: true
     is-main-branch: true
     pre-release-weight: 55000
-  hotfix:
-    mode: ContinuousDelivery
-    label: HOTFIX
-    increment: Patch
-    prevent-increment:
-      when-current-commit-tagged: false
-    track-merge-target: true
-    track-merge-message: true
-    regex: ^hotfix(es)?[/-](?<BranchName>.+)
-    source-branches: [develop, main]
-    is-source-branch-for: []
-    tracks-release-branches: false
-    is-release-branch: false
-    is-main-branch: false
-    pre-release-weight: 30000
+  # hotfix:
+  #   mode: ContinuousDelivery
+  #   label: HOTFIX
+  #   increment: Patch
+  #   prevent-increment:
+  #     when-current-commit-tagged: false
+  #   track-merge-target: true
+  #   track-merge-message: true
+  #   regex: ^hotfix(es)?[/-](?<BranchName>.+)
+  #   source-branches: [develop, main]
+  #   is-source-branch-for: []
+  #   tracks-release-branches: false
+  #   is-release-branch: false
+  #   is-main-branch: false
+  #   pre-release-weight: 30000
 ignore:
   sha: []
 mode: ContinuousDelivery
