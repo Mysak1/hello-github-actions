@@ -1,0 +1,71 @@
+name: Test gittools/GitVersion
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [develop, main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [develop, main] # target pull_request branches
+
+env:
+  VERSION_PREFIX: be-
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3.1.10
+        with:
+          versionSpec: "6.0.0"
+
+      - name: Determine Version
+        id: version_step
+        uses: gittools/actions/gitversion/execute@v3.1.11
+        with:
+          useConfigFile: true
+          configFilePath: GitVersion.yml
+          overrideConfig: |
+            tag-prefix=${{ env.VERSION_PREFIX }}
+
+      ########################################################################################
+      - name: Display GitVersion config
+        uses: gittools/actions/gitversion/command@v3.1.11
+        with:
+          arguments: "/showConfig"
+
+      - name: Output the FullSemVer variable
+        uses: gittools/actions/gitversion/command@v3.1.11
+        with:
+          arguments: "/showvariable FullSemVer"
+
+      - name: Output the formatted version
+        uses: gittools/actions/gitversion/command@v3.1.11
+        with:
+          arguments: "/format {Major}.{Minor}.{Patch}" # any Output Variable can be used here
+
+      - name: Display GitVersion variables
+        run: |
+          echo "FullSemVer (env.fullSemVer) : ${{ env.fullSemVer }}"
+          echo "FullSemVer (steps.version_step.outputs.fullSemVer) : ${{ steps.version_step.outputs.fullSemVer }}"
+          echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
+          echo "FullSemVer (steps.version_step.outputs.GitVersion_FullSemVer) : ${{ steps.version_step.outputs.GitVersion_FullSemVer }}"
+
+      ########################################################################################
+      - name: Tag version
+        if: ${{ github.event_name != 'pull_request' }}
+        run: |
+          release_version=${{ env.VERSION_PREFIX }}${{ steps.version_step.outputs.fullSemVer }}
+          if [ $(git tag -l "$release_version" --points-at HEAD) ]; then
+            echo "Tag $release_version already exists on current commit"
+          else
+            echo "Tagging version $release_version"
+            git tag $release_version
+            git push origin $release_version
+          fi
