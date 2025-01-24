@@ -19,19 +19,6 @@ strategies:
   - TrackReleaseBranches
   - VersionInBranchName
 branches:
-  feature:
-    mode: ManualDeployment
-    label: "{BranchName}"
-    increment: Inherit
-    prevent-increment:
-      when-current-commit-tagged: false
-    track-merge-message: true
-    regex: ^features?[/-](?<BranchName>.+)
-    source-branches: [develop, main, hotfix]
-    is-source-branch-for: []
-    is-release-branch: false
-    is-main-branch: false
-    pre-release-weight: 30000
   develop:
     mode: ContinuousDelivery
     label: SNAPSHOT
@@ -87,10 +74,10 @@ mode: ContinuousDelivery
 label: "{BranchName}"
 increment: Inherit
 prevent-increment:
-  of-merged-branch: true
-  when-branch-merged: true
+  of-merged-branch: false
+  when-branch-merged: false
   when-current-commit-tagged: true
-track-merge-target: true
+track-merge-target: false
 track-merge-message: true
 commit-message-incrementing: Enabled
 regex: ""
