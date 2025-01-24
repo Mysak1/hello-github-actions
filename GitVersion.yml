@@ -50,10 +50,10 @@ branches:
   main:
     mode: ContinuousDeployment
     label: ""
-    increment: Minor
+    increment: Patch
     prevent-increment:
-      of-merged-branch: true
-      when-branch-merged: true
+      of-merged-branch: false
+      when-branch-merged: false
       when-current-commit-tagged: false
     track-merge-target: true
     track-merge-message: true
