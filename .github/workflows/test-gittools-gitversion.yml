@@ -52,7 +52,6 @@ jobs:
       #     echo "FullSemVer (steps.version_step.outputs.fullSemVer) : ${{ steps.version_step.outputs.fullSemVer }}"
       #     echo "FullSemVer (env.GitVersion_FullSemVer) : ${{ env.GitVersion_FullSemVer }}"
       #     echo "FullSemVer (steps.version_step.outputs.GitVersion_FullSemVer) : ${{ steps.version_step.outputs.GitVersion_FullSemVer }}"
-
       - name: Tag version
         if: ${{ github.event_name != 'pull_request' }}
         run: |
