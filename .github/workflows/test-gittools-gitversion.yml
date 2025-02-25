@@ -17,19 +17,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v3.1.11
-        with:
-          versionSpec: "6.0.0"
-
       - name: Determine Version
-        id: version_step
-        uses: gittools/actions/gitversion/execute@v3.1.11
-        with:
-          useConfigFile: true
-          configFilePath: GitVersion.yml
-          overrideConfig: |
-            tag-prefix=${{ env.VERSION_PREFIX }}
+        #run: docker run -d --name azurite1 -p 10000:10000 mcr.microsoft.com/azure-storage/azurite:latest
+        run: |
+          docker --version
+          echo GITHUB_REF=$GITHUB_REF
+          docker run --rm -v "$(pwd):/repo" --env GITHUB_ACTIONS=true --env GITHUB_REF=$GITHUB_REF gittools/gitversion:latest /repo
+
+      # - name: Install GitVersion
+      #   uses: gittools/actions/gitversion/setup@v3.1.11
+      #   with:
+      #     versionSpec: "6.0.0"
+
+      # - name: Determine Version
+      #   id: version_step
+      #   uses: gittools/actions/gitversion/execute@v3.1.11
+      #   with:
+      #     useConfigFile: true
+      #     configFilePath: GitVersion.yml
+      #     overrideConfig: |
+      #       tag-prefix=${{ env.VERSION_PREFIX }}
+
       # - name: Display GitVersion config
       #   uses: gittools/actions/gitversion/command@v3.1.11
       #   with:
