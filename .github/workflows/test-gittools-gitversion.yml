@@ -22,7 +22,8 @@ jobs:
         run: |
           docker --version
           echo GITHUB_REF=$GITHUB_REF
-          docker run --rm -v "$(pwd):/repo" --env GITHUB_ACTIONS=true --env GITHUB_REF=$GITHUB_REF gittools/gitversion:latest /repo > output.json
+          docker run --rm -v "$(pwd):/repo" --env GITHUB_ACTIONS=true --env GITHUB_REF=$GITHUB_REF gittools/gitversion:6.1.0-alpine.3.20-8.0-amd64 /repo > output.json
+          cat output.json
           echo fullSemVer=$(cat output.json | jq -r '.FullSemVer') >> $GITHUB_OUTPUT
 
       # - name: Install GitVersion
